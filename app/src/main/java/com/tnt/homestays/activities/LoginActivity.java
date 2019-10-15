@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.tnt.homestays.MainActivity;
 import com.tnt.homestays.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -17,6 +18,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void logIn(View view) {
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
     }
 
     public void register(View view) {
