@@ -8,4 +8,6 @@
     <color name="button">#C0C0C0</color>
     <color name="white">#FFFFFF</color>
     <color name="colorWhite">#fff</color>
+    <color name="colorBlackOpacity">#66000000</color>
+
 </resources>
