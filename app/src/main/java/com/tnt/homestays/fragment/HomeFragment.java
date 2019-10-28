@@ -1,10 +1,12 @@
 package com.tnt.homestays.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,26 +14,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.tnt.homestays.R;
-import com.tnt.homestays.holder.HomestaysHolder;
+import com.tnt.homestays.activities.DetailHomeActivity;
+import com.tnt.homestays.adapter.HomestaysAdapter;
 import com.tnt.homestays.model.Homestays;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class HomeFragment extends Fragment {
-    List<Homestays> list;
+public class HomeFragment extends Fragment implements HomestaysAdapter.OnItemClickListener{
     RecyclerView rcViewHome;
 
     //Firebase
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    ArrayList<Homestays> homestaysArrayList;
+    HomestaysAdapter homestaysAdapter;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,33 +54,50 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseRecyclerOptions<Homestays> options =
-                new FirebaseRecyclerOptions.Builder<Homestays>()
-                        .setQuery(databaseReference, Homestays.class)
-                        .build();
+        if (databaseReference != null){
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    homestaysArrayList = new ArrayList<Homestays>();
+                    for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()) {
+                        Homestays homestays = dataSnapshot1.getValue(Homestays.class);
+                        homestaysArrayList.add(homestays);
+                    }
+                    homestaysAdapter = new HomestaysAdapter(getContext(),homestaysArrayList);
+                    rcViewHome.setAdapter(homestaysAdapter);
+                    homestaysAdapter.setOnItemClickListener(HomeFragment.this);
+                }
 
-        FirebaseRecyclerAdapter<Homestays, HomestaysHolder> adapter
-                = new FirebaseRecyclerAdapter<Homestays, HomestaysHolder>
-                (options) {
-            @Override
-            protected void onBindViewHolder(@NonNull HomestaysHolder holder, int position, @NonNull Homestays model) {
-                holder.tvTitle.setText(model.getTitle());
-                holder.tvAddress.setText(model.getAddress());
-                holder.tvArea.setText(model.getArearoom());
-                holder.tvPrice.setText(model.getPrice());
-                Glide.with(getContext()).load(model.getImages()).into(holder.imgAvatar);
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(getActivity(), "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
 
-            @NonNull
-            @Override
-            public HomestaysHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_home, parent, false);
+    @Override
+    public void onItemClick(int position) {
+        Homestays homestays = homestaysArrayList.get(position);
+        Intent intent = new Intent(getContext(), DetailHomeActivity.class);
+        intent.putExtra("img", homestays.getImages());
+        intent.putExtra("title", homestays.getTitle());
+        intent.putExtra("address", homestays.getAddress());
+        intent.putExtra("area", homestays.getArearoom());
+        intent.putExtra("phone", homestays.getPhone());
+        intent.putExtra("des", homestays.getDescription());
+        intent.putExtra("price", homestays.getPrice());
+        startActivity(intent);
+        Toast.makeText(getActivity(), "Normal click at position: " + position, Toast.LENGTH_SHORT).show();
+    }
 
-                return new HomestaysHolder(view);
-            }
-        };
-        rcViewHome.setAdapter(adapter);
-        adapter.startListening();
+    @Override
+    public void onWhatEverClick(int position) {
+        Toast.makeText(getActivity(), "Whatever click at position: " + position, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDeleteClick(int position) {
+
     }
 }

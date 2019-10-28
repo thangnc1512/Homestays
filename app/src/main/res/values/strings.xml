@@ -7,4 +7,8 @@
     <string name="search">Search</string>
     <string name="favorite">Favorite</string>
     <string name="user">User</string>
+    <string name="close">Close</string>
+    <string name="call">Gọi điện</string>
+    <string name="location">Chỉ đường</string>
+    <string name="share">Chia sẻ</string>
 </resources>

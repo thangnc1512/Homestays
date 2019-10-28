@@ -27,7 +27,7 @@ import eu.long1.spacetablayout.SpaceTabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActionBar toolbar;
+//    private ActionBar toolbar;
     BottomNavigationView navigation;
 
     @Override
@@ -35,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        toolbar = getSupportActionBar();
-        assert toolbar != null;
-        toolbar.setTitle(R.string.home);
+//        toolbar = getSupportActionBar();
+//        assert toolbar != null;
+//        toolbar.setTitle(R.string.home);
 
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -53,22 +53,22 @@ public class MainActivity extends AppCompatActivity {
             Fragment fragment;
             switch (item.getItemId()) {
                 case R.id.nav_home:
-                    toolbar.setTitle(R.string.home);
+//                    toolbar.setTitle(R.string.home);
                     fragment = new HomeFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.nav_search:
-                    toolbar.setTitle(R.string.search);
+//                    toolbar.setTitle(R.string.search);
                     fragment = new FindFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.nav_favorite:
-                    toolbar.setTitle(R.string.favorite);
+//                    toolbar.setTitle(R.string.favorite);
                     fragment = new FavoriteFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.nav_user:
-                    toolbar.setTitle(R.string.user);
+//                    toolbar.setTitle(R.string.user);
                     fragment = new UserFragment();
                     loadFragment(fragment);
                     return true;

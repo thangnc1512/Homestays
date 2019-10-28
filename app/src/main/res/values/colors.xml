@@ -9,5 +9,8 @@
     <color name="white">#FFFFFF</color>
     <color name="colorWhite">#fff</color>
     <color name="colorBlackOpacity">#66000000</color>
+    <!--gradient-->
+    <color name="gradient_color_1">#37a5af</color>
+    <color name="gradient_color_2">#e00ebf</color>
 
 </resources>
