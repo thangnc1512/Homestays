@@ -6,35 +6,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.tnt.homestays.fragment.FavoriteFragment;
 import com.tnt.homestays.fragment.FindFragment;
 import com.tnt.homestays.fragment.HomeFragment;
 import com.tnt.homestays.fragment.UserFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import eu.long1.spacetablayout.SpaceTabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-//    private ActionBar toolbar;
+    //    private ActionBar toolbar;
     BottomNavigationView navigation;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
 //        toolbar = getSupportActionBar();
 //        assert toolbar != null;
 //        toolbar.setTitle(R.string.home);
@@ -82,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
         // load fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, fragment);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
+
+
 }
