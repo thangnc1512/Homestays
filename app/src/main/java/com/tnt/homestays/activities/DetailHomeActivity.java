@@ -123,7 +123,11 @@ public class DetailHomeActivity extends AppCompatActivity {
             lnShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(DetailHomeActivity.this, "Coming soon", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "My application name");
+                    intent.putExtra(Intent.EXTRA_TEXT, "This is my text");
+                    startActivity(Intent.createChooser(intent, "choose one"));
                     bottomSheetDialog.dismiss();
                 }
             });
