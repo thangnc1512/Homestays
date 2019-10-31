@@ -2,6 +2,7 @@ package com.tnt.homestays.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -115,7 +116,20 @@ public class DetailHomeActivity extends AppCompatActivity {
             lnLocation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(DetailHomeActivity.this, "Coming soon", Toast.LENGTH_SHORT).show();
+                    String uri = "google.navigation:q=" + address;
+                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                            Uri.parse(uri));
+                    try {
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException ex) {
+                        try {
+                            Intent unrestrictedIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                            startActivity(unrestrictedIntent);
+                        } catch (ActivityNotFoundException innerEx) {
+                            Toast.makeText(DetailHomeActivity.this, "Please install a maps application", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
                     bottomSheetDialog.dismiss();
                 }
             });
